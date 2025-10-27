@@ -27,6 +27,13 @@ function App() {
   useEffect(() => {
     fetchVoices();
     fetchHistory();
+    
+    // Cleanup: révoquer les blob URLs quand le composant se démonte
+    return () => {
+      if (audioUrl) {
+        URL.revokeObjectURL(audioUrl);
+      }
+    };
   }, []);
 
   const fetchVoices = async () => {
