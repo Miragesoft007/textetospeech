@@ -44,6 +44,7 @@ pycodestyle==2.14.0
 pycparser==2.23
 pydantic==2.12.3
 pydantic_core==2.41.4
+pydub==0.25.1
 pyflakes==3.4.0
 Pygments==2.19.2
 PyJWT==2.10.1
