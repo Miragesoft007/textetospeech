@@ -72,9 +72,15 @@ function App() {
 
       const duration = (Date.now() - startTime) / 1000;
 
+      // Nettoyer l'ancien URL s'il existe
+      if (audioUrl) {
+        URL.revokeObjectURL(audioUrl);
+      }
+
       // Créer une URL pour l'audio et stocker le blob
       const blob = new Blob([response.data], { type: 'audio/mpeg' });
       const url = URL.createObjectURL(blob);
+      
       setAudioUrl(url);
       setAudioBlob(blob);
       
