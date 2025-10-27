@@ -298,11 +298,10 @@ function App() {
                         onEnded={() => setIsPlaying(false)}
                         onPlay={() => setIsPlaying(true)}
                         onPause={() => setIsPlaying(false)}
+                        controls
                         className="audio-element"
+                        style={{flex: 1}}
                       />
-                      <div className="audio-info">
-                        <span className="audio-status">{isPlaying ? "En lecture..." : "Prêt à écouter"}</span>
-                      </div>
                       <Button
                         data-testid="download-button"
                         onClick={downloadAudio}
