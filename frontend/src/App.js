@@ -14,7 +14,7 @@ const API = `${BACKEND_URL}/api`;
 
 function App() {
   const [text, setText] = useState("");
-  const [voice, setVoice] = useState("alloy");
+  const [voice, setVoice] = useState("onyx");
   const [speed, setSpeed] = useState([1.0]);
   const [voices, setVoices] = useState([]);
   const [isGenerating, setIsGenerating] = useState(false);
