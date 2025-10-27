@@ -1,0 +1,108 @@
+{
+  "total_tests": 14,
+  "passed_tests": 14,
+  "failed_tests": 0,
+  "success_rate": 100.0,
+  "test_results": [
+    {
+      "test_name": "Health Check",
+      "success": true,
+      "details": "Status: 200, Service: TTS API",
+      "response_data": null,
+      "timestamp": "2025-10-27T17:37:07.907346"
+    },
+    {
+      "test_name": "Get Voices",
+      "success": true,
+      "details": "Found 6 voices: ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer']",
+      "response_data": null,
+      "timestamp": "2025-10-27T17:37:07.915999"
+    },
+    {
+      "test_name": "Generate Speech (alloy, 1.0x)",
+      "success": true,
+      "details": "Audio generated: 117600 bytes, type: audio/mpeg",
+      "response_data": null,
+      "timestamp": "2025-10-27T17:37:09.607451"
+    },
+    {
+      "test_name": "Generate Speech (echo, 1.0x)",
+      "success": true,
+      "details": "Audio generated: 117600 bytes, type: audio/mpeg",
+      "response_data": null,
+      "timestamp": "2025-10-27T17:37:12.719472"
+    },
+    {
+      "test_name": "Generate Speech (fable, 1.0x)",
+      "success": true,
+      "details": "Audio generated: 118080 bytes, type: audio/mpeg",
+      "response_data": null,
+      "timestamp": "2025-10-27T17:37:15.060372"
+    },
+    {
+      "test_name": "Generate Speech (alloy, 0.5x)",
+      "success": true,
+      "details": "Audio generated: 235680 bytes, type: audio/mpeg",
+      "response_data": null,
+      "timestamp": "2025-10-27T17:37:18.351506"
+    },
+    {
+      "test_name": "Generate Speech (alloy, 1.5x)",
+      "success": true,
+      "details": "Audio generated: 78240 bytes, type: audio/mpeg",
+      "response_data": null,
+      "timestamp": "2025-10-27T17:37:22.457514"
+    },
+    {
+      "test_name": "Generate Speech (alloy, 2.0x)",
+      "success": true,
+      "details": "Audio generated: 57600 bytes, type: audio/mpeg",
+      "response_data": null,
+      "timestamp": "2025-10-27T17:37:24.399066"
+    },
+    {
+      "test_name": "Generate Speech (nova, 1.0x)",
+      "success": true,
+      "details": "Audio generated: 50400 bytes, type: audio/mpeg",
+      "response_data": null,
+      "timestamp": "2025-10-27T17:37:26.205377"
+    },
+    {
+      "test_name": "Generate Speech (nova, 1.0x)",
+      "success": true,
+      "details": "Audio generated: 65760 bytes, type: audio/mpeg",
+      "response_data": null,
+      "timestamp": "2025-10-27T17:37:28.438518"
+    },
+    {
+      "test_name": "Generate Speech (nova, 1.0x)",
+      "success": true,
+      "details": "Audio generated: 77760 bytes, type: audio/mpeg",
+      "response_data": null,
+      "timestamp": "2025-10-27T17:37:31.818068"
+    },
+    {
+      "test_name": "Save History",
+      "success": true,
+      "details": "History saved with ID: 32f3d3ca-0361-468c-8e6d-2d74e2b112a2",
+      "response_data": null,
+      "timestamp": "2025-10-27T17:37:31.825042"
+    },
+    {
+      "test_name": "Get History",
+      "success": true,
+      "details": "Retrieved 2 history items",
+      "response_data": null,
+      "timestamp": "2025-10-27T17:37:31.871725"
+    },
+    {
+      "test_name": "Delete History",
+      "success": true,
+      "details": "Deleted successfully: Élément supprimé avec succès",
+      "response_data": null,
+      "timestamp": "2025-10-27T17:37:31.880390"
+    }
+  ],
+  "backend_url": "https://smart-tts.preview.emergentagent.com",
+  "timestamp": "2025-10-27T17:37:31.880420"
+}
