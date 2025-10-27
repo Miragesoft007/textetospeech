@@ -98,15 +98,48 @@ function App() {
     }
   };
 
-  const downloadAudio = () => {
+  const downloadAudio = async () => {
     if (audioUrl) {
-      const a = document.createElement('a');
-      a.href = audioUrl;
-      a.download = 'synthese_vocale.mp3';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      toast.success("Téléchargement lancé!");
+      try {
+        // Télécharger à nouveau pour éviter les problèmes de CORS
+        const response = await axios.post(
+          `${API}/tts/generate`,
+          {
+            text: text,
+            voice: voice,
+            speed: speed[0]
+          },
+          {
+            responseType: 'blob'
+          }
+        );
+        
+        // Créer un blob URL
+        const blob = new Blob([response.data], { type: 'audio/mpeg' });
+        const url = window.URL.createObjectURL(blob);
+        
+        // Créer un lien de téléchargement
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `synthese_vocale_${Date.now()}.mp3`;
+        
+        document.body.appendChild(a);
+        a.click();
+        
+        // Nettoyage
+        setTimeout(() => {
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+        }, 100);
+        
+        toast.success("Téléchargement MP3 réussi!");
+      } catch (error) {
+        console.error("Erreur lors du téléchargement:", error);
+        toast.error("Erreur lors du téléchargement");
+      }
+    } else {
+      toast.error("Aucun audio à télécharger. Générez d'abord l'audio.");
     }
   };
 
