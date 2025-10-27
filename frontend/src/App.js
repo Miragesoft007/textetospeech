@@ -182,13 +182,13 @@ function App() {
                   </label>
                   <Textarea
                     data-testid="text-input"
-                    placeholder="Entrez le texte que vous souhaitez convertir en audio. L'IA comprendra automatiquement la ponctuation pour une intonation naturelle..."
+                    placeholder="Entrez le texte que vous souhaitez convertir en audio. L'IA comprendra automatiquement la ponctuation pour une intonation naturelle. Vous pouvez entrer des textes longs, ils seront automatiquement découpés et fusionnés..."
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     className="text-area"
                     rows={6}
                   />
-                  <div className="char-counter">{text.length} / 4000 caractères</div>
+                  <div className="char-counter">{text.length} / 50000 caractères (découpage automatique)</div>
                 </div>
 
                 {/* Voice Selection */}
