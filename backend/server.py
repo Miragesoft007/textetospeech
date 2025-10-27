@@ -69,6 +69,55 @@ class TTSHistoryCreate(BaseModel):
 async def root():
     return {"message": "API Synthèse Vocale avec Intelligence AI"}
 
+
+def smart_text_split(text: str, max_chars: int = 4000) -> List[str]:
+    """
+    Découpe intelligente du texte en respectant les phrases et paragraphes
+    pour ne pas couper au milieu d'une phrase
+    """
+    if len(text) <= max_chars:
+        return [text]
+    
+    chunks = []
+    
+    # Diviser par paragraphes d'abord
+    paragraphs = text.split('\n\n')
+    current_chunk = ""
+    
+    for paragraph in paragraphs:
+        # Si le paragraphe seul dépasse la limite, le découper par phrases
+        if len(paragraph) > max_chars:
+            sentences = re.split(r'([.!?]+\s+)', paragraph)
+            
+            for i in range(0, len(sentences), 2):
+                sentence = sentences[i]
+                separator = sentences[i + 1] if i + 1 < len(sentences) else ""
+                full_sentence = sentence + separator
+                
+                if len(current_chunk) + len(full_sentence) > max_chars:
+                    if current_chunk:
+                        chunks.append(current_chunk.strip())
+                    current_chunk = full_sentence
+                else:
+                    current_chunk += full_sentence
+        else:
+            # Si ajouter ce paragraphe dépasse la limite
+            if len(current_chunk) + len(paragraph) + 2 > max_chars:
+                if current_chunk:
+                    chunks.append(current_chunk.strip())
+                current_chunk = paragraph
+            else:
+                if current_chunk:
+                    current_chunk += "\n\n" + paragraph
+                else:
+                    current_chunk = paragraph
+    
+    if current_chunk:
+        chunks.append(current_chunk.strip())
+    
+    return chunks
+
+
 @api_router.get("/tts/voices")
 async def get_voices():
     """Retourne la liste des voix disponibles"""
