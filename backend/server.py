@@ -12,6 +12,9 @@ import uuid
 from datetime import datetime, timezone
 from openai import OpenAI, APIError, APIConnectionError, RateLimitError, AuthenticationError
 import io
+import tempfile
+import re
+from pydub import AudioSegment
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
