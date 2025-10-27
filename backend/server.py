@@ -41,7 +41,7 @@ logger = logging.getLogger(__name__)
 # Define Models
 class TTSRequest(BaseModel):
     text: str = Field(..., min_length=1, max_length=4000, description="Texte à convertir en audio")
-    voice: str = Field(default="alloy", description="Voix à utiliser")
+    voice: str = Field(default="onyx", description="Voix à utiliser")
     speed: float = Field(default=1.0, ge=0.25, le=4.0, description="Vitesse de lecture")
 
 class TTSHistory(BaseModel):
