@@ -72,9 +72,11 @@ function App() {
 
       const duration = (Date.now() - startTime) / 1000;
 
-      // Créer une URL pour l'audio
-      const url = URL.createObjectURL(response.data);
+      // Créer une URL pour l'audio et stocker le blob
+      const blob = new Blob([response.data], { type: 'audio/mpeg' });
+      const url = URL.createObjectURL(blob);
       setAudioUrl(url);
+      setAudioBlob(blob);
       
       toast.success("Audio généré avec succès!");
 
