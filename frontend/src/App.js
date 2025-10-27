@@ -101,25 +101,11 @@ function App() {
     }
   };
 
-  const downloadAudio = async () => {
-    if (audioUrl) {
+  const downloadAudio = () => {
+    if (audioBlob) {
       try {
-        // Télécharger à nouveau pour éviter les problèmes de CORS
-        const response = await axios.post(
-          `${API}/tts/generate`,
-          {
-            text: text,
-            voice: voice,
-            speed: speed[0]
-          },
-          {
-            responseType: 'blob'
-          }
-        );
-        
-        // Créer un blob URL
-        const blob = new Blob([response.data], { type: 'audio/mpeg' });
-        const url = window.URL.createObjectURL(blob);
+        // Créer un blob URL depuis le blob stocké
+        const url = window.URL.createObjectURL(audioBlob);
         
         // Créer un lien de téléchargement
         const a = document.createElement('a');
