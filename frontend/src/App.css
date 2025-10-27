@@ -285,6 +285,11 @@
 .audio-element {
   flex: 1;
   height: 40px;
+  outline: none;
+}
+
+.audio-element::-webkit-media-controls-panel {
+  background-color: white;
 }
 
 .audio-info {
