@@ -136,30 +136,77 @@ async def get_voices():
 
 @api_router.post("/tts/generate")
 async def generate_speech(request: TTSRequest):
-    """Génère un audio à partir du texte avec intelligence AI pour comprendre la ponctuation"""
+    """Génère un audio à partir du texte avec découpage automatique pour les textes longs"""
     try:
-        logger.info(f"Génération audio: voice={request.voice}, speed={request.speed}, text_length={len(request.text)}")
+        text_length = len(request.text)
+        logger.info(f"Génération audio: voice={request.voice}, speed={request.speed}, text_length={text_length}")
         
-        # Appel à l'API OpenAI TTS
-        response = openai_client.audio.speech.create(
-            model="tts-1",  # Modèle avec latence réduite
-            voice=request.voice,
-            input=request.text,
-            response_format="mp3",
-            speed=request.speed
-        )
+        # Si le texte est court, génération simple
+        if text_length <= 4000:
+            response = openai_client.audio.speech.create(
+                model="tts-1",
+                voice=request.voice,
+                input=request.text,
+                response_format="mp3",
+                speed=request.speed
+            )
+            
+            audio_bytes = response.content
+            logger.info(f"Audio généré avec succès: {len(audio_bytes)} bytes")
+            
+            return StreamingResponse(
+                io.BytesIO(audio_bytes),
+                media_type="audio/mpeg",
+                headers={
+                    "Content-Disposition": "attachment; filename=synthese_vocale.mp3",
+                    "Content-Length": str(len(audio_bytes))
+                }
+            )
         
-        # Convertir la réponse en bytes
-        audio_bytes = response.content
-        logger.info(f"Audio généré avec succès: {len(audio_bytes)} bytes")
+        # Pour les textes longs, découpage automatique
+        logger.info(f"Texte long détecté ({text_length} caractères). Découpage automatique en cours...")
+        chunks = smart_text_split(request.text, max_chars=4000)
+        logger.info(f"Texte découpé en {len(chunks)} segments")
         
-        # Retourner l'audio en streaming
+        # Générer l'audio pour chaque segment
+        audio_segments = []
+        
+        for i, chunk in enumerate(chunks):
+            logger.info(f"Génération du segment {i+1}/{len(chunks)} ({len(chunk)} caractères)")
+            
+            response = openai_client.audio.speech.create(
+                model="tts-1",
+                voice=request.voice,
+                input=chunk,
+                response_format="mp3",
+                speed=request.speed
+            )
+            
+            # Convertir en AudioSegment
+            audio_data = io.BytesIO(response.content)
+            segment = AudioSegment.from_mp3(audio_data)
+            audio_segments.append(segment)
+        
+        # Fusionner tous les segments
+        logger.info("Fusion des segments audio...")
+        combined_audio = audio_segments[0]
+        for segment in audio_segments[1:]:
+            combined_audio += segment
+        
+        # Exporter le fichier fusionné
+        output_buffer = io.BytesIO()
+        combined_audio.export(output_buffer, format="mp3")
+        output_buffer.seek(0)
+        
+        final_size = len(output_buffer.getvalue())
+        logger.info(f"Audio final généré avec succès: {final_size} bytes ({len(chunks)} segments fusionnés)")
+        
         return StreamingResponse(
-            io.BytesIO(audio_bytes),
+            output_buffer,
             media_type="audio/mpeg",
             headers={
                 "Content-Disposition": "attachment; filename=synthese_vocale.mp3",
-                "Content-Length": str(len(audio_bytes))
+                "Content-Length": str(final_size)
             }
         )
         
